@@ -5,15 +5,11 @@ class Enemy {
     constructor() {
         // Set image
         this.sprite = 'images/enemy-bug.png';
-
-        // Rest of properties and variables go here
-            // Set initial location
-                // x pos
-                // y pos
-            // Set speed
+        // Set initial location
+            // x pos
+            // y pos
+        // Set speed
     }
-
-    // Methods go here
     
     // Update enemy's position
     update(dt) {
@@ -21,7 +17,7 @@ class Enemy {
 
         // Multiply any movement by the dt parameter
 
-        // If enemy is not paseed boundary
+        // If enemy is not paseed edge of board
             // Move forward
             // Increment x by speed * dt
         // else
@@ -39,27 +35,13 @@ class Enemy {
  */
 class Player {
     constructor() {
-        // Set image
         this.sprite = 'images/char-boy.png';
-
-        // Rest of properties and variables go here
-            // Set location
-                // x pos
-                // y pos
-    }
-
-    // Methods go here
-
-    // Update Player's position
-    update(dt) {
-        // Multiply any movement by the dt parameter
-
-        // Check for collison
-            // Did Player's x and y collide with enemy?
-
-        // Check for win
-            // Did player's x and y reach final tile?
-                // IF yes, reset game
+        this.col = 101;
+        this.row = 83;
+        this.startX = this.col * 2;
+        this.startY = this.row * 5;
+        this.x = this.startX;
+        this.y = this.startY;
     }
 
     // Draw the player on screen
@@ -67,11 +49,41 @@ class Player {
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
 
+    // Update Player's position
+    update() {
+        // Check for collison
+            // Did Player's x and y collide with enemy?
+                // IF yes, move player to begninning
+
+        // Check for win
+            // Did player's x and y reach final tile?
+                // IF yes, reset game
+    }
+
     // Move Player based on user input
-    handleInput() {
-        // Receive key presses + allowedKeys
-        // Update Player's x and y according to input
-        // NO moving offscreen
+    handleInput(input) {
+        switch(input) {
+            case 'left':
+                if (this.x > 0) {
+                    this.x -= this.col;
+                }
+                break;
+            case 'up':
+                if (this.y > 0) {
+                    this.y -= this.row;
+                }
+                break;
+            case 'right':
+                if (this.x < this.col * 4) {
+                    this.x += this.col;
+                }
+                break;
+            case 'down':
+                if (this.y < this.row * 5) {
+                    this.y += this.row;
+                }
+                break;
+        }
     }
 
     // Reset Player
@@ -88,6 +100,11 @@ const allEnemies = [];
 // Create multiple new enemy objects
     // Use loop to create up to certain number
 // Push each enemy object to allEnemies array
+
+/* for (const i = 0; i <= 5; i += 1) {
+    let enemy[i] = new Enemy();
+    allEnemies.push(enemy[i]);
+} */
 
 // Player object
 const player = new Player();
