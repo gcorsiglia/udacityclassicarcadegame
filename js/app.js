@@ -1,13 +1,30 @@
 /*
+ * ENTITY CLASS
+ */ 
+class Entity {
+    constructor() {
+        this.sprite = 'images/';
+        this.col = 101;
+        this.row = 83;
+        this.x = 0;
+        this.y = 0;
+    }
+
+    render() {
+        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    }
+}
+
+/*
  * ENEMY CLASS
  */
-class Enemy {
-    constructor() {
+class Enemy extends Entity {
+    constructor(x, y) {
+        super();
         // Set image
-        this.sprite = 'images/enemy-bug.png';
-        // Set initial location
-            // x pos
-            // y pos
+        this.sprite += 'enemy-bug.png';
+        this.x = x;
+        this.y = y;
         // Set speed
     }
     
@@ -22,31 +39,20 @@ class Enemy {
             // Increment x by speed * dt
         // else
             // Resest position to start
-    }
-
-    // Draw the enemy on screen
-    render() {
-        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    }
+    }    
 }
 
 /*
  * PLAYER CLASS
  */
-class Player {
+class Player extends Entity {
     constructor() {
-        this.sprite = 'images/char-boy.png';
-        this.col = 101;
-        this.row = 83;
+        super();
+        this.sprite += 'char-boy.png';
         this.startX = this.col * 2;
         this.startY = this.row * 5;
         this.x = this.startX;
         this.y = this.startY;
-    }
-
-    // Draw the player on screen
-    render() {
-        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
 
     // Update Player's position
