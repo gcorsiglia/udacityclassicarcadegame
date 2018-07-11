@@ -4,14 +4,19 @@
 class Entity {
     constructor() {
         this.sprite = 'images/';
-        this.col = 101;
-        this.row = 83;
-        this.x = 0;
-        this.y = 0;
+        this.x = 2;
+        this.y = 5;
     }
 
+    // Render sprites
     render() {
-        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+        ctx.drawImage(Resources.get(this.sprite), (this.x * 101), (this.y * 83));
+    }
+
+    // Check if sprites are on the game board
+    update(dt) {
+        this.isOffBoardX = this.x > 5;
+        this.isOffBoardY = this.y < 1;
     }
 }
 
@@ -19,26 +24,22 @@ class Entity {
  * ENEMY CLASS
  */
 class Enemy extends Entity {
-    constructor(x, y) {
+    constructor(x, y, speed) {
         super();
-        // Set image
         this.sprite += 'enemy-bug.png';
         this.x = x;
         this.y = y;
-        // Set speed
+        this.speed = speed;
     }
     
     // Update enemy's position
     update(dt) {
-        // Parameter: dt, a time delta between ticks
-
-        // Multiply any movement by the dt parameter
-
-        // If enemy is not paseed edge of board
-            // Move forward
-            // Increment x by speed * dt
-        // else
-            // Resest position to start
+        super.update();
+        if (this.isOffBoardX) {
+            this.x = -1;
+        } else {
+            this.x += dt;
+        }
     }    
 }
 
@@ -49,14 +50,11 @@ class Player extends Entity {
     constructor() {
         super();
         this.sprite += 'char-boy.png';
-        this.startX = this.col * 2;
-        this.startY = this.row * 5;
-        this.x = this.startX;
-        this.y = this.startY;
     }
 
     // Update Player's position
     update() {
+        super.update();
         // Check for collison
             // Did Player's x and y collide with enemy?
                 // IF yes, move player to begninning
@@ -71,22 +69,22 @@ class Player extends Entity {
         switch(input) {
             case 'left':
                 if (this.x > 0) {
-                    this.x -= this.col;
+                    this.x -= 1;
                 }
                 break;
             case 'up':
                 if (this.y > 0) {
-                    this.y -= this.row;
+                    this.y -= 1;
                 }
                 break;
             case 'right':
-                if (this.x < this.col * 4) {
-                    this.x += this.col;
+                if (this.x < 4) {
+                    this.x += 1;
                 }
                 break;
             case 'down':
-                if (this.y < this.row * 5) {
-                    this.y += this.row;
+                if (this.y < 5) {
+                    this.y += 1;
                 }
                 break;
         }
@@ -103,20 +101,21 @@ class Player extends Entity {
  * INSTANTIATE OBJECTS
  */
 const allEnemies = [];
-// Create multiple new enemy objects
-    // Use loop to create up to certain number
-// Push each enemy object to allEnemies array
+createEnemies();
 
-/* for (const i = 0; i <= 5; i += 1) {
-    let enemy[i] = new Enemy();
-    allEnemies.push(enemy[i]);
-} */
+function createEnemies() {
+    for (let i = 0; i < 5; i++) {
+        const x = 0;
+        let y = Math.floor((Math.random() * 3) + 1); // random assignment of 1, 2, or 3
+        let speed = Math.floor((Math.random() * 7) + 1); // random speed
+        
+        allEnemies.push(new Enemy(x, y, speed));
+    }
+}
 
-// Player object
 const player = new Player();
 
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
+// Listen for key presses
 document.addEventListener('keyup', function(e) {
     const allowedKeys = {
         37: 'left',
