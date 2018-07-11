@@ -38,7 +38,7 @@ class Enemy extends Entity {
         if (this.isOffBoardX) {
             this.x = -1;
         } else {
-            this.x += dt;
+            this.x += this.speed * dt;
         }
     }    
 }
@@ -104,10 +104,10 @@ const allEnemies = [];
 createEnemies();
 
 function createEnemies() {
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 4; i++) {
         const x = 0;
-        let y = Math.floor((Math.random() * 3) + 1); // random assignment of 1, 2, or 3
-        let speed = Math.floor((Math.random() * 7) + 1); // random speed
+        const y = Math.floor((Math.random() * 3) + 1); // random assignment of 1, 2, or 3
+        const speed = Math.floor((Math.random() * 6) + 1); // random speed
         
         allEnemies.push(new Enemy(x, y, speed));
     }
