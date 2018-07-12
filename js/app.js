@@ -61,7 +61,7 @@ class Player extends Entity {
 
         // Check for win
             // Did player's x and y reach final tile?
-                // IF yes, reset game
+                // IF yes, alert of win and restartGame()
     }
 
     // Move Player based on user input
@@ -89,18 +89,13 @@ class Player extends Entity {
                 break;
         }
     }
-
-    // Reset Player
-    reset() {
-        // Set x and y to starting x an y
-    }
 }
 
 
 /* 
  * INSTANTIATE OBJECTS
  */
-const allEnemies = [];
+let allEnemies = [];
 createEnemies();
 
 function createEnemies() {
@@ -114,6 +109,21 @@ function createEnemies() {
 }
 
 const player = new Player();
+
+/*
+ * RESTART GAME
+ */
+function clearEnemies() {
+    allEnemies = [];
+}
+
+function restartGame() {
+    player.x = 2;
+    player.y = 5;
+
+    clearEnemies();
+    createEnemies();
+}
 
 // Listen for key presses
 document.addEventListener('keyup', function(e) {
