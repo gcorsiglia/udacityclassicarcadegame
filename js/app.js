@@ -65,13 +65,19 @@ class Player extends Entity {
         this.win = false;
     }
 
-    // Update Player's position
+    // Check for win
     update() {
         super.update();
         if (this.isOffBoardY && !this.moving && !this.win) {
-            alert("You win!");
             this.win = true;
+            gameOver();
         }
+    }
+
+    // Reset moving to false when rendering occurs
+    render() {
+        super.render();
+        this.moving = false;
     }
 
     // Move Player based on user input
@@ -103,7 +109,6 @@ class Player extends Entity {
     }
 }
 
-
 /* 
  * INSTANTIATE OBJECTS
  */
@@ -124,7 +129,7 @@ function createEnemies() {
 const player = new Player();
 
 /*
- * RESTART GAME
+ * WIN AND RESTART GAME
  */
 function clearEnemies() {
     allEnemies = [];
@@ -137,6 +142,34 @@ function restartGame() {
     clearEnemies();
     createEnemies();
 }
+
+const winner = document.getElementById("winner");
+
+function gameOver() {
+  setTimeout(function() {
+    if (player.win) {
+      winner.style.display = "block";
+      clearEnemies();
+
+      /*
+      totalMoves.innerText = moves;
+      playTime.innerText = time;
+      if (stars === 1) {
+        starScore.innerText = `${stars} star`;
+      } else {
+        starScore.innerText = `${stars} stars`;
+      }
+      */
+    }
+  }, 250);
+}
+
+// Play again button
+const playAgain = document.querySelector("#playAgain");
+playAgain.addEventListener("click", function() {
+  winner.style.display = "none";
+  restartGame();
+});
 
 // Listen for key presses
 document.addEventListener('keyup', function(e) {
