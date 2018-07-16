@@ -6,6 +6,8 @@ class Entity {
         this.sprite = 'images/';
         this.x = 2;
         this.y = 5;
+        //this.width = 101;
+        //this.height = 171;
     }
 
     // Render sprites
@@ -17,6 +19,17 @@ class Entity {
     update(dt) {
         this.isOffBoardX = this.x > 5;
         this.isOffBoardY = this.y < 1;
+    }
+
+    // Check for collisions
+    checkCollisions(playerOrEnemy) {
+        if (this.y === playerOrEnemy.y) {
+            if (this.x >= playerOrEnemy.x - 0.5 && this.x <= playerOrEnemy.x + 0.5) {
+                return true;
+            }
+        } else {
+            return false;
+        }
     }
 }
 
@@ -40,7 +53,7 @@ class Enemy extends Entity {
         } else {
             this.x += this.speed * dt;
         }
-    }    
+    }
 }
 
 /*
@@ -50,18 +63,17 @@ class Player extends Entity {
     constructor() {
         super();
         this.sprite += 'char-boy.png';
+        this.moving = false;
+        this.win = false;
     }
 
     // Update Player's position
     update() {
         super.update();
-        // Check for collison
-            // Did Player's x and y collide with enemy?
-                // IF yes, move player to begninning
-
-        // Check for win
-            // Did player's x and y reach final tile?
-                // IF yes, alert of win and restartGame()
+        if (this.isOffBoardY && !this.moving && !this.win) {
+            alert("You win!");
+            this.win = true;
+        }
     }
 
     // Move Player based on user input
@@ -88,6 +100,8 @@ class Player extends Entity {
                 }
                 break;
         }
+
+        this.moving = true;
     }
 }
 
@@ -98,6 +112,7 @@ class Player extends Entity {
 let allEnemies = [];
 createEnemies();
 
+// Create 4 enemies + randomly assign y location and speed
 function createEnemies() {
     for (let i = 0; i < 4; i++) {
         const x = 0;
