@@ -6,8 +6,6 @@ class Entity {
         this.sprite = 'images/';
         this.x = 2;
         this.y = 5;
-        //this.width = 101;
-        //this.height = 171;
     }
 
     // Render sprites
@@ -62,7 +60,7 @@ class Enemy extends Entity {
 class Player extends Entity {
     constructor() {
         super();
-        this.sprite += 'char-boy.png';
+        this.sprite += 'char-horn-girl.png';
         this.moving = false;
         this.win = false;
     }
