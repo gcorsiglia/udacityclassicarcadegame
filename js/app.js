@@ -59,6 +59,7 @@ class Player extends Entity {
         super.update();
         if (this.isOffBoardY && !this.moving && !this.win) {
             this.win = true;
+            score.score += 500;
             gameOver();
         }
     }
@@ -115,17 +116,18 @@ class Gem extends Entity {
  */
 class Score {
     constructor() {
-        this.x = 450;
-        this.y = 450;
         this.score = 0;
     }
 
+    /*
     render() {
+        super.render();
         ctx.font = "30px Arial";
         ctx.fillStyle = "white";
         ctx.textAlign = "right";
         ctx.fillText("Score: " + this.score, this.x, this.y);
     }
+    */
 }
 
 /* 
@@ -136,9 +138,9 @@ const score = new Score();
 let allEnemies = [];
 createEnemies();
 
-// Create 4 enemies + randomly assign y location and speed
+// Create 3 enemies + randomly assign y location and speed
 function createEnemies() {
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 3; i++) {
         const x = 0;
         const y = Math.floor((Math.random() * 3) + 1); // random assignment of 1, 2, or 3
         const speed = Math.floor((Math.random() * 6) + 1); // random speed
@@ -196,8 +198,8 @@ const checkCollisions = function() {
                 allGems.splice(i, 1);
             }
         }
-    })
-}
+    });
+};
 
 /*
  * WIN AND RESTART GAME
@@ -212,6 +214,8 @@ function restartGame() {
     player.y = 5;
     player.win = false;
 
+    score.score = 0;
+
     clearItems();
     createEnemies();
     addGems();
@@ -224,16 +228,6 @@ function gameOver() {
     if (player.win) {
       winner.style.display = "block";
       clearItems();
-
-      /*
-      totalMoves.innerText = moves;
-      playTime.innerText = time;
-      if (stars === 1) {
-        starScore.innerText = `${stars} star`;
-      } else {
-        starScore.innerText = `${stars} stars`;
-      }
-      */
     }
   }, 250);
 }
