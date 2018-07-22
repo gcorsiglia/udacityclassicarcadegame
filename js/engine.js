@@ -80,16 +80,51 @@ var Engine = (function(global) {
     function update(dt) {
         updateEntities(dt);
         checkCollisions();
+        //gemCollection();
     }
     
-    function checkCollisions () {
+    /*
+    function checkCollisions() {
         allEnemies.forEach(enemy => {
             if (enemy.checkCollisions(player) || player.checkCollisions(enemy)) {
                     player.x = 2;
                     player.y = 5;
+
+                    score.score -= 50;
                 }
             });
     }
+    */
+
+    /*
+    function gemCollection() {
+        for (let i = 0; i < allGems.length; i++) {
+            if (player.gemCollection(i)) {
+                score.score += 100;
+                allGems.splice(i, 1);
+        }
+
+        return allGems;    
+        }
+    }
+    */
+
+    /*
+    function gemCollection() {
+        allGems.forEach(gem => {
+            if (player.gemCollection(gem)) {
+                score.score += 100;
+                
+                // Remove gem from array and stop render
+                i = allGems.indexOf(gem);
+                allGems.splice(i, 1);
+            }
+
+            return allGems;
+        })
+    }
+    */
+    
 
     /* This is called by the update function and loops through all of the
      * objects within your allEnemies array as defined in app.js and calls
@@ -102,7 +137,13 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
+
+        allGems.forEach(function(gem) {
+            gem.update();
+        });
+
         player.update();
+        
     }
 
     /* This function initially draws the "game level", it will then call
@@ -158,6 +199,10 @@ var Engine = (function(global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
+         allGems.forEach(function(gem) {
+            gem.render();
+        });
+
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
@@ -181,8 +226,12 @@ var Engine = (function(global) {
         'images/stone-block.png',
         'images/water-block.png',
         'images/grass-block.png',
+        'images/Gem-Blue2.png',
+        'images/Gem-Green2.png',
+        'images/Gem-Orange2.png',
         'images/enemy-bug.png',
-        'images/char-horn-girl.png'
+        'images/char-horn-girl.png' 
+        
     ]);
     Resources.onReady(init);
 

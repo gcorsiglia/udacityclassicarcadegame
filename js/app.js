@@ -2,15 +2,17 @@
  * ENTITY CLASS
  */ 
 class Entity {
-    constructor() {
+    constructor(x, y) {
         this.sprite = 'images/';
-        this.x = 2;
-        this.y = 5;
+        this.x = x;
+        this.y = y;
+        this.width = 101;
+        this.height = 171;
     }
 
     // Render sprites
     render() {
-        ctx.drawImage(Resources.get(this.sprite), (this.x * 101), (this.y * 83));
+        ctx.drawImage(Resources.get(this.sprite), (this.x * 101), (this.y * 83), this.width, this.height);
     }
 
     // Check if sprites are on the game board
@@ -19,6 +21,7 @@ class Entity {
         this.isOffBoardY = this.y < 1;
     }
 
+    /*
     // Check for collisions
     checkCollisions(playerOrEnemy) {
         if (this.y === playerOrEnemy.y) {
@@ -29,6 +32,7 @@ class Entity {
             return false;
         }
     }
+    */
 }
 
 /*
@@ -36,10 +40,8 @@ class Entity {
  */
 class Enemy extends Entity {
     constructor(x, y, speed) {
-        super();
+        super(x, y);
         this.sprite += 'enemy-bug.png';
-        this.x = x;
-        this.y = y;
         this.speed = speed;
     }
     
@@ -58,8 +60,8 @@ class Enemy extends Entity {
  * PLAYER CLASS
  */
 class Player extends Entity {
-    constructor() {
-        super();
+    constructor(x, y) {
+        super(x, y);
         this.sprite += 'char-horn-girl.png';
         this.moving = false;
         this.win = false;
@@ -79,6 +81,18 @@ class Player extends Entity {
         super.render();
         this.moving = false;
     }
+
+    
+    /*
+    // Check for gem collection
+    gemCollection(gem) {
+        if ((this.y === gem.y) && (this.x >= gem.x - 0.5 && this.x <= gem.x + 0.5)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    */
 
     // Move Player based on user input
     handleInput(input) {
@@ -109,9 +123,52 @@ class Player extends Entity {
     }
 }
 
+/*
+ * GEM CLASS
+ */
+class Gem extends Entity {
+    constructor(x, y, color) {
+        super(x, y);
+        this.sprite += 'Gem-' + color;
+        this.width = 68;
+        this.height = 83;
+    }
+
+    /*
+    // Check for collection
+    gemCollection(player) {
+        if ((this.y === player.y) && (this.x >= player.x - 0.5 && this.x <= player.x + 0.5)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    */
+}
+
+/*
+ * SCORE
+ */
+class Score {
+    constructor() {
+        this.x = 450;
+        this.y = 450;
+        this.score = 0;
+    }
+
+    render() {
+        ctx.font = "30px Arial";
+        ctx.fillStyle = "white";
+        ctx.textAlign = "right";
+        ctx.fillText("Score: " + this.score, this.x, this.y);
+    }
+}
+
 /* 
  * INSTANTIATE OBJECTS
  */
+const score = new Score();
+
 let allEnemies = [];
 createEnemies();
 
@@ -126,21 +183,71 @@ function createEnemies() {
     }
 }
 
-const player = new Player();
+let allGems = [];
+addGems();
+
+function addGems() {
+    for (let i = 0; i <= 3; i++) {
+        const x = Math.floor((Math.random() * 4)) + 0.15;
+        const y = Math.floor((Math.random() * 3) + 1) + 0.55;
+
+        const gemColors = ['Blue2.png', 'Green2.png', 'Orange2.png'];
+        const color = gemColors[Math.floor(Math.random() * 3)];
+
+        allGems[i] = new Gem(x, y, color);
+    }
+
+    return allGems;
+}
+
+const player = new Player(2, 5);
+
+
+/*
+ * COLLISIONS
+ */ 
+const checkCollisions = function() {
+    // Check for collision b/t player and enemies; reset player location and decrease score
+    allEnemies.forEach(enemy => {
+        if (player.y === enemy.y) {
+            if (player.x >= enemy.x - 0.5 && player.x <= enemy.x + 0.5) {
+                player.x = 2;
+                player.y = 5;
+
+                score.score -= 50;
+            }
+        }
+    });
+
+    // Check for collission between player and gems; increase score and remove gem from board
+    allGems.forEach(gem => {
+        if (player.y + 0.55 === gem.y) {
+            if (player.x >+ gem.x - 0.5 && player.x <= gem.x + 0.5) {
+                score.score += 100;
+
+                i = allGems.indexOf(gem);
+                allGems.splice(i, 1);
+            }
+        }
+    })
+}
 
 /*
  * WIN AND RESTART GAME
  */
-function clearEnemies() {
+function clearItems() {
     allEnemies = [];
+    allGems = [];
 }
 
 function restartGame() {
     player.x = 2;
     player.y = 5;
+    player.win = false;
 
-    clearEnemies();
+    clearItems();
     createEnemies();
+    addGems();
 }
 
 const winner = document.getElementById("winner");
@@ -149,7 +256,7 @@ function gameOver() {
   setTimeout(function() {
     if (player.win) {
       winner.style.display = "block";
-      clearEnemies();
+      clearItems();
 
       /*
       totalMoves.innerText = moves;
