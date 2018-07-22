@@ -52,6 +52,7 @@ class Player extends Entity {
         this.sprite += 'char-horn-girl.png';
         this.moving = false;
         this.win = false;
+        this.score = 0;
     }
 
     // Check for win
@@ -111,30 +112,9 @@ class Gem extends Entity {
     }
 }
 
-/*
- * SCORE
- */
-class Score {
-    constructor() {
-        this.score = 0;
-    }
-
-    /*
-    render() {
-        super.render();
-        ctx.font = "30px Arial";
-        ctx.fillStyle = "white";
-        ctx.textAlign = "right";
-        ctx.fillText("Score: " + this.score, this.x, this.y);
-    }
-    */
-}
-
 /* 
  * INSTANTIATE OBJECTS
  */
-const score = new Score();
-
 let allEnemies = [];
 createEnemies();
 
@@ -183,7 +163,12 @@ const checkCollisions = function() {
                 player.x = 2;
                 player.y = 5;
 
-                score.score -= 50;
+                if (player.score > 0) {
+                    player.score -= 50;
+                } else {
+                    player.score = 0;
+                }
+                
             }
         }
     });
@@ -192,7 +177,7 @@ const checkCollisions = function() {
     allGems.forEach(gem => {
         if (player.y + 0.55 === gem.y) {
             if (player.x >+ gem.x - 0.5 && player.x <= gem.x + 0.5) {
-                score.score += 100;
+                player.score += 100;
 
                 i = allGems.indexOf(gem);
                 allGems.splice(i, 1);
@@ -213,8 +198,7 @@ function restartGame() {
     player.x = 2;
     player.y = 5;
     player.win = false;
-
-    score.score = 0;
+    player.score = 0;
 
     clearItems();
     createEnemies();

@@ -147,7 +147,7 @@ var Engine = (function(global) {
         // Score card
         ctx.fillStyle = '#fff';
         ctx.font = '20px Arial';
-        ctx.fillText('Score: ' + score.score, 8, 75);
+        ctx.fillText('Score: ' + player.score, 8, 75);
 
         renderEntities();
     }
