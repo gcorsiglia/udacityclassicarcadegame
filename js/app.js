@@ -20,19 +20,6 @@ class Entity {
         this.isOffBoardX = this.x > 5;
         this.isOffBoardY = this.y < 1;
     }
-
-    /*
-    // Check for collisions
-    checkCollisions(playerOrEnemy) {
-        if (this.y === playerOrEnemy.y) {
-            if (this.x >= playerOrEnemy.x - 0.5 && this.x <= playerOrEnemy.x + 0.5) {
-                return true;
-            }
-        } else {
-            return false;
-        }
-    }
-    */
 }
 
 /*
@@ -82,18 +69,6 @@ class Player extends Entity {
         this.moving = false;
     }
 
-    
-    /*
-    // Check for gem collection
-    gemCollection(gem) {
-        if ((this.y === gem.y) && (this.x >= gem.x - 0.5 && this.x <= gem.x + 0.5)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    */
-
     // Move Player based on user input
     handleInput(input) {
         switch(input) {
@@ -133,17 +108,6 @@ class Gem extends Entity {
         this.width = 68;
         this.height = 83;
     }
-
-    /*
-    // Check for collection
-    gemCollection(player) {
-        if ((this.y === player.y) && (this.x >= player.x - 0.5 && this.x <= player.x + 0.5)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    */
 }
 
 /*
@@ -181,11 +145,14 @@ function createEnemies() {
         
         allEnemies.push(new Enemy(x, y, speed));
     }
+
+    return allEnemies;
 }
 
 let allGems = [];
 addGems();
 
+// Create 4 gems + randomly assign location and color
 function addGems() {
     for (let i = 0; i <= 3; i++) {
         const x = Math.floor((Math.random() * 4)) + 0.15;
@@ -194,7 +161,7 @@ function addGems() {
         const gemColors = ['Blue2.png', 'Green2.png', 'Orange2.png'];
         const color = gemColors[Math.floor(Math.random() * 3)];
 
-        allGems[i] = new Gem(x, y, color);
+        allGems.push(new Gem(x, y, color));
     }
 
     return allGems;

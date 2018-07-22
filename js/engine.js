@@ -80,52 +80,8 @@ var Engine = (function(global) {
     function update(dt) {
         updateEntities(dt);
         checkCollisions();
-        //gemCollection();
     }
-    
-    /*
-    function checkCollisions() {
-        allEnemies.forEach(enemy => {
-            if (enemy.checkCollisions(player) || player.checkCollisions(enemy)) {
-                    player.x = 2;
-                    player.y = 5;
-
-                    score.score -= 50;
-                }
-            });
-    }
-    */
-
-    /*
-    function gemCollection() {
-        for (let i = 0; i < allGems.length; i++) {
-            if (player.gemCollection(i)) {
-                score.score += 100;
-                allGems.splice(i, 1);
-        }
-
-        return allGems;    
-        }
-    }
-    */
-
-    /*
-    function gemCollection() {
-        allGems.forEach(gem => {
-            if (player.gemCollection(gem)) {
-                score.score += 100;
-                
-                // Remove gem from array and stop render
-                i = allGems.indexOf(gem);
-                allGems.splice(i, 1);
-            }
-
-            return allGems;
-        })
-    }
-    */
-    
-
+     
     /* This is called by the update function and loops through all of the
      * objects within your allEnemies array as defined in app.js and calls
      * their update() methods. It will then call the update function for your
