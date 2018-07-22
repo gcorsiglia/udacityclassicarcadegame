@@ -1,6 +1,11 @@
-frontend-nanodegree-arcade-game
-===============================
+# Classic Arcade Game Clone
 
-Students should use this [rubric](https://review.udacity.com/#!/projects/2696458597/rubric) for self-checking their submission. Make sure the functions you write are **object-oriented** - either class functions (like Player and Enemy) or class prototype functions such as Enemy.prototype.checkCollisions, and that the keyword 'this' is used appropriately within your class and class prototype functions to refer to the object the function is called upon. Also be sure that the **readme.md** file is updated with your instructions on both how to 1. Run and 2. Play your arcade game.
+This game was built using Object-Oriented Javascript. This game is a clone of the classic arcade game, Frogger. This is the third project in the [Udacity Front-end Development Nanodegree program](https://www.udacity.com/course/front-end-web-developer-nanodegree--nd001).
 
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
+## How to Play the Game
+
+The object of the game is to make get across the board, from the grass to the water. Collect gems along the way to earn points. But be careful of the bugs - you will lose points and have to start over each time your player collides with a bug. Use arrow keys to move your player across the board.
+
+## Acknowledgments
+
+The starter code for this project was provided by Udacity, including HTML as well as much of the engine and resource js.
